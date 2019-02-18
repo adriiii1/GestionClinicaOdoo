@@ -1,0 +1,147 @@
+<odoo>
+    <data>
+        <record id="ficha_form_view" model="ir.ui.view">
+            <field name="name">ficha.ficha.form</field>
+            <field name="model">ficha.ficha</field>
+            <field name="view_type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="paciente_id"/>
+                            <field name="medico_id"/>
+                            <field name="fecha_nacimiento" readonly="1"/>
+                            <field name="edad_paciente" readonly="1"/>
+                        </group>
+                        <separator/>
+                        <group>
+                            <field name="observaciones_medicas"/>
+                            <field name="diagnostico"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="ficha_tree_view" model="ir.ui.view">
+            <field name="name">ficha.ficha.tre</field>
+            <field name="model">ficha.ficha</field>
+            <field name="view_type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="paciente_id"/>
+                    <field name="medico_id"/>
+                    <field name="fecha_nacimiento" readonly="1"/>
+                    <field name="diagnostico"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_ficha_tree_view" model="ir.actions.act_window">
+            <field name="name">fichas</field>
+            <field name="res_model">ficha.ficha</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Añadir nueva ficha
+                </p>
+                <p>
+                    ficha
+                </p>
+            </field>
+        </record>
+        <menuitem id="menu_ficha_root" name="fichas"/>
+        <menuitem action="action_ficha_tree_view"
+            id="menu_action_ficha_tree_view" name="fichas" parent="menu_ficha_root"/>
+        <record id="consulta_form_view" model="ir.ui.view">
+            <field name="name">ficha.consulta.form</field>
+            <field name="model">ficha.consulta</field>
+            <field name="view_type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="fecha_consulta"/>
+                            <field name="paciente_id"/>
+                        </group>
+                        <group>
+                            <field name="tipo_consulta"/>
+                            <field name="local_consulta"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="consulta_tree_view" model="ir.ui.view">
+            <field name="name">ficha.consulta.tree</field>
+            <field name="model">ficha.consulta</field>
+            <field name="view_type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="paciente_id"/>
+                    <field name="fecha_consulta"/>
+                    <field name="tipo_consulta"/>
+                    <field name="local_consulta"/>
+                </tree>
+            </field>
+        </record>
+        <record id="consulta_calendar_view" model="ir.ui.view">
+            <field name="name">Consultas</field>
+            <field name="model">ficha.consulta</field>
+            <field eval="2" name="priority"/>
+            <field name="arch" type="xml">
+                <calendar mode="month"
+                color="paciente_id" date_start="fecha_consulta" string="Consultas">
+                    <field name="paciente_id"/>
+                    <field name="local_consulta"/>
+                </calendar>
+            </field>
+        </record>
+        <record id="action_consulta_tree_view" model="ir.actions.act_window">
+            <field name="name">Consultas</field>
+            <field name="res_model">ficha.consulta</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">calendar,tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Añadir nueva consulta
+                </p>
+                <p>
+                    Consultas
+                </p>
+            </field>
+        </record>
+        <menuitem id="menu_consulta_root" name="Consultas"/>
+        <menuitem action="action_consulta_tree_view"
+            id="menu_action_consulta_tree_view" name="Consultas" parent="menu_consulta_root"/>
+        <record id="res_partner_clinica_form_view" model="ir.ui.view">
+            <field name="name">res.partner.clinica.form.view</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field eval="20" name="priority"/>
+            <field name="arch" type="xml">
+                <div name="button_box" position="inside">
+                    <button class="oe_stat_button" icon="fa-book"
+                        name="open_ficha_action" type="object">
+                        <field name="count_ficha"
+                            string="fichas" widget="statinfo"/>
+                    </button>
+                    <button class="oe_stat_button" icon="fa-calendar"
+                        name="open_consulta_action" type="object">
+                        <field name="count_consulta" string="Consultas" widget="statinfo"/>
+                    </button>
+                </div>
+                <xpath expr="//notebook/page[1]" position="before">
+                    <page name="datos_personales" string="Datos Personales">
+                        <group>
+                            <field colspan="2" name="fecha_nacimiento"/>
+                            <field colspan="2" name="edad" readonly="1"/>
+                            <field name="sexo"/>
+                            <field name="alergias"/>
+                            <field name="obs"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
